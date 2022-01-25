@@ -6,13 +6,14 @@ It is not only a data provider for your API, but it can also (optionally) genera
 ## Motivation
 
 The first reason I was motivated to do this was to quickly prototype an admin tool for a work-in-progress SQL DB schema that was still uncertain. I didn't want to worry about adapting the UI views whenever the DB schema changed, that would be a big waste of time until I had the final version of the schema.
+I also didn't want to invest time on building a RESTFul API yet.
 
 Possible use cases:
 
 - Having an almost zero-coding quick way to display and manage data in SQL-based databases.
 - Building your own simple but highly customizable headless CMS, with e.g. just a SQLite DB file.
 - Prototyping admin tools and dashboards without worrying too much about building APIs for them, and without having to change the admin UI whenever the DB schema changes (which is very often when it's still being defined).
-- Prototyping an internal support tool for your company without worrying too much whenever a microservice changes its underlaying DB schema.
+- Prototyping an internal support tool for your company without worrying too much whenever a microservice changes its underlaying DB schema, without waiting for them to create API endpoints (as abstraction layers).
 
 ## Installation
 
