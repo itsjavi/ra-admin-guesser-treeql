@@ -5,6 +5,8 @@ It is not only a data provider for your API, but it can also (optionally) genera
 
 ## Motivation
 
+> Data first, code later.
+
 The first reason I was motivated to do this was to quickly prototype an admin tool for a work-in-progress SQL DB schema that was still uncertain. I didn't want to worry about adapting the UI views whenever the DB schema changed, that would be a big waste of time until I had the final version of the schema.
 I also didn't want to invest time on building a RESTFul API yet.
 
