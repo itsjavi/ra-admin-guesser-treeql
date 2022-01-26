@@ -1,7 +1,7 @@
 {
   "name": "ra-data-treeql",
   "version": "0.3.3",
-  "description": "Simple REST data provider for react-admin",
+  "description": "PHP-CRUD-API / TreeQL Data Provider and automatic UI generator for react-admin",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "sideEffects": false,
