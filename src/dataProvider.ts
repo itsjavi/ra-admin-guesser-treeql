@@ -145,7 +145,6 @@ export const treeqlDataProvider = (
       })
         // WARNING (delete): the API returns num of deleted rows, but RA expects a record
         .then(() => {
-          console.log(params.previousData)
           return {data: params.previousData as any}
         }),
 

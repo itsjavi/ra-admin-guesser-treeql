@@ -12,7 +12,18 @@ interface ResourceGuesserProps {
   excludedTables?: string[],
   adminProps: AdminProps | any,
   maxGridColumns: number
-  children: React.ReactNode
+  children?: React.ReactNode
+}
+
+const getSafeAdminChildren = (children: any): React.ReactElement | React.ReactElement[] => {
+  // CoreAdminRouter needs all children to be defined elements, because they are traversed
+  // in order to check their props and clone them with React.cloneElement
+
+  if (!React.isValidElement(children) || children === null) {
+    return <div className={"ra-core-admin-router--empty-child"} style={{"display": "none"}}/>
+  }
+
+  return children
 }
 
 export const AdminGuesser = (
@@ -42,6 +53,6 @@ export const AdminGuesser = (
     {tables.map(
       (table, index) => guessResource({table, maxGridColumns, key: index})
     )}
-    {children}
+    {getSafeAdminChildren(children)}
   </Admin>
 }

@@ -11,9 +11,10 @@ export type DbColumn = {
   length?: number
   precision?: number
   scale?: number
-  nullable: boolean
-  pk: boolean
-  fk: string
+  nullable?: boolean
+  pk?: boolean
+  // Foreign Key table name
+  fk?: string
 }
 export type DbTable = {
   name: string
@@ -25,17 +26,22 @@ const normalizeColumnType = (rawColumnType: string): DbColumnType => {
   switch (rawColumnType) {
     case "int":
     case "integer":
+    case "tinyint":
     case "smallint":
+    case "mediumint":
     case "bigint":
+    case "int2":
+    case "int8":
       return 'int'
     case "decimal":
     case "float":
+    case "real":
     case "double":
     case "number":
+    case "numeric":
       return 'float'
     case "boolean":
     case "bool":
-    case "tinyint":
       return 'bool'
     case "date":
     case "datetime":
@@ -43,6 +49,7 @@ const normalizeColumnType = (rawColumnType: string): DbColumnType => {
     case "timestamp":
       return 'datetime'
     case "text":
+    case "clob":
     case "tinytext":
     case "mediumtext":
     case "longtext":
