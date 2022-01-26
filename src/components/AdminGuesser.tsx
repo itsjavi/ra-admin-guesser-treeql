@@ -12,6 +12,7 @@ interface ResourceGuesserProps {
   excludedTables?: string[],
   adminProps: AdminProps | any,
   maxGridColumns: number
+  children: React.ReactNode
 }
 
 export const AdminGuesser = (
@@ -20,7 +21,8 @@ export const AdminGuesser = (
     httpClient = fetchUtils.fetchJson,
     adminProps,
     maxGridColumns,
-    excludedTables = ["sqlite_sequence", "doctrine_migration_versions", "migrations"]
+    excludedTables = ["sqlite_sequence", "doctrine_migration_versions", "migrations"],
+    children
   }: ResourceGuesserProps
 ): JSX.Element => {
   const {tables, loading, error} = useColumns(baseApiUrl, httpClient, excludedTables)
@@ -40,5 +42,6 @@ export const AdminGuesser = (
     {tables.map(
       (table, index) => guessResource({table, maxGridColumns, key: index})
     )}
+    {children}
   </Admin>
 }
