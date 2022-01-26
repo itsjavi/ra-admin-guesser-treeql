@@ -1,21 +1,28 @@
 # ra-data-treeql
-🪄 [React Admin](https://marmelab.com/react-admin) data provider and UI scaffolder for [TreeQL](https://treeql.org/)-powered REST APIs like [PHP-CRUD-API](https://github.com/mevdschee/php-crud-api).
 
-It is not only a data provider for your API, but it can also (optionally) generate the UI for all your tables and columns automatically, similarly to [`api-platform` admin](https://github.com/api-platform/admin) .
+🪄 [React Admin](https://marmelab.com/react-admin) data provider and UI scaffolder
+for [TreeQL](https://treeql.org/)-powered REST APIs like [PHP-CRUD-API](https://github.com/mevdschee/php-crud-api).
+
+It is not only a data provider for your API, but it can also (optionally) generate the UI for all your tables and
+columns automatically, similarly to [`api-platform` admin](https://github.com/api-platform/admin) .
 
 ## Motivation
 
 > Data first, code later.
 
-The first reason I was motivated to do this was to quickly prototype an admin tool for a work-in-progress SQL DB schema that was still uncertain. I didn't want to worry about adapting the UI views whenever the DB schema changed, that would be a big waste of time until I had the final version of the schema.
-I also didn't want to invest time on building a RESTFul API yet.
+The first reason I was motivated to do this was to quickly prototype an admin tool for a work-in-progress SQL DB schema
+that was still uncertain. I didn't want to worry about adapting the UI views whenever the DB schema changed, that would
+be a big waste of time until I had the final version of the schema. I also didn't want to invest time on building a
+RESTFul API yet.
 
 Possible use cases:
 
 - Having an almost zero-coding quick way to display and manage data in SQL-based databases.
 - Building your own simple but highly customizable headless CMS, with e.g. just a SQLite DB file.
-- Prototyping admin tools and dashboards without worrying too much about building APIs for them, and without having to change the admin UI whenever the DB schema changes (which is very often when it's still being defined).
-- Prototyping an internal support tool for your company without worrying too much whenever a microservice changes its underlaying DB schema, without waiting for them to create API endpoints (as abstraction layers).
+- Prototyping admin tools and dashboards without worrying too much about building APIs for them, and without having to
+  change the admin UI whenever the DB schema changes (which is very often when it's still being defined).
+- Prototyping an internal support tool for your company without worrying too much whenever a microservice changes its
+  underlaying DB schema, without waiting for them to create API endpoints (as abstraction layers).
 
 ## Installation
 
@@ -25,8 +32,125 @@ npm i ra-data-treeql
 
 ## Requirements
 
-- An API based on [php-crud-api](https://github.com/mevdschee/php-crud-api) or compatible. Alternatively, any [TreeQL](https://treeql.org) implementation that also exposes a `/columns` endpoint like php-crud-api does. If you don't need the scaffolding part, you don't need to have a `/columns` endpoint in the implementation of TreeQL of your choice.
+- An API based on [php-crud-api](https://github.com/mevdschee/php-crud-api) or compatible. Alternatively,
+  any [TreeQL](https://treeql.org) implementation that also exposes a `/columns` endpoint like php-crud-api does. If you
+  don't need the scaffolding part, you don't need to have a `/columns` endpoint in the implementation of TreeQL of your
+  choice.
 - A React or React + NextJS app (with TypeScript) to embed the admin component in
+
+## Usage
+
+You can use this package just as a data provider for your React Admin app (`treeqlDataProvider`), or you can also use it
+to automatically generate the UI for your tables and columns, using the `AdminGuesser` component.
+
+### Using the data provider without UI scaffolding
+
+```jsx
+// in src/App.js
+import * as React from "react";
+import {Admin, Resource} from 'react-admin';
+import {fetchUtils} from "ra-core"
+import treeqlDataProvider from 'ra-data-treeql';
+
+import {PostList} from './posts';
+
+const App = () => (
+  <Admin dataProvider={treeqlDataProvider('http://base.url.to.my.api/', fetchUtils.fetchJson)}>
+    <Resource name="posts" list={PostList}/>
+  </Admin>
+);
+
+export default App;
+```
+
+### Embedding the AdminGuesser in a React app
+
+`components/ReactAdmin.tsx`
+
+```tsx
+import {MyDashboardPanel} from "./dashboard"
+import {AdminGuesser} from "ra-data-treeql"
+import {fetchUtils} from "ra-core"
+
+
+const ReactAdmin = () => {
+  const apiUrl = process.env.API_URL || 'http://localhost:1234/api'
+
+  return (
+    <AdminGuesser
+      apiUrl={apiUrl}
+      httpClient={fetchUtils.fetchJson}
+      excludedTables={[
+        "sqlite_sequence",
+        "doctrine_migration_versions",
+        "migrations"
+      ]}
+      adminProps={{
+        title: 'My React Admin',
+        dashboard: MyDashboardPanel,
+      }}/>
+  )
+}
+
+export default ReactAdmin
+```
+
+### Embedding the AdminGuesser in a NextJS app
+
+`components/ReactAdmin.tsx`
+
+```tsx
+
+import {MyDashboardPanel} from "./dashboard"
+import {AdminGuesser} from "ra-data-treeql"
+import {fetchUtils} from "ra-core"
+
+
+const ReactAdmin = () => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1234/api'
+
+  return (
+    <AdminGuesser
+      apiUrl={apiUrl}
+      httpClient={fetchUtils.fetchJson}
+      excludedTables={[
+        "sqlite_sequence",
+        "doctrine_migration_versions",
+        "migrations"
+      ]}
+      adminProps={{
+        title: 'My React Admin',
+        dashboard: MyDashboardPanel,
+      }}/>
+  )
+}
+
+export default ReactAdmin
+```
+
+`pages/admin.tsx`
+
+```tsx
+import dynamic from "next/dynamic"
+
+/**
+ * This page cannot be Server-side rendered, so NextJS has to explicitly declare it as a dynamic page.
+ *
+ * @see https://marmelab.com/react-admin/CustomApp.html
+ * @see https://github.com/marmelab/react-admin/issues/4158
+ * @see https://nextjs.org/docs/advanced-features/dynamic-import#with-no-ssr
+ * @see https://stackoverflow.com/questions/65629726/react-admin-with-next-js
+ * @see https://stackoverflow.com/questions/55399118/how-to-remove-hash-from-routes-in-react-admin-framework
+ */
+//
+const ReactAdmin = dynamic(() => import("../components/ReactAdmin"), {
+  ssr: false,
+})
+
+const HomePage = () => <ReactAdmin/>
+
+export default HomePage
+```
 
 ## Configuring php-crud-api
 
@@ -106,92 +230,3 @@ class ApiController extends AbstractController
 }
 
 ```
-
-## Usage
-
-### Embedding in a regular React app
-
-`components/ReactAdmin.tsx`
-```tsx
-import {MyDashboardPanel} from "./dashboard"
-import {AdminGuesser} from "ra-data-treeql"
-import {fetchUtils} from "ra-core"
-
-
-const ReactAdmin = () => {
-  const apiUrl = process.env.API_URL || 'http://localhost:1234/api'
-
-  return (
-    <AdminGuesser
-      apiUrl={apiUrl}
-      httpClient={fetchUtils.fetchJson}
-      excludedTables={[
-        "sqlite_sequence",
-        "doctrine_migration_versions",
-        "migrations"
-      ]}
-      adminProps={{
-        title: 'My React Admin',
-        dashboard: MyDashboardPanel,
-      }}/>
-  )
-}
-
-export default ReactAdmin
-```
-
-### Embedding in a NextJS app
-
-`components/ReactAdmin.tsx`
-```tsx
-
-import {MyDashboardPanel} from "./dashboard"
-import {AdminGuesser} from "ra-data-treeql"
-import {fetchUtils} from "ra-core"
-
-
-const ReactAdmin = () => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1234/api'
-
-  return (
-    <AdminGuesser
-      apiUrl={apiUrl}
-      httpClient={fetchUtils.fetchJson}
-      excludedTables={[
-        "sqlite_sequence",
-        "doctrine_migration_versions",
-        "migrations"
-      ]}
-      adminProps={{
-        title: 'My React Admin',
-        dashboard: MyDashboardPanel,
-      }}/>
-  )
-}
-
-export default ReactAdmin
-```
-
-`pages/admin.tsx`
-```tsx
-import dynamic from "next/dynamic"
-
-/**
- * This page cannot be Server-side rendered, so NextJS has to explicitly declare it as a dynamic page.
- *
- * @see https://marmelab.com/react-admin/CustomApp.html
- * @see https://github.com/marmelab/react-admin/issues/4158
- * @see https://nextjs.org/docs/advanced-features/dynamic-import#with-no-ssr
- * @see https://stackoverflow.com/questions/65629726/react-admin-with-next-js
- * @see https://stackoverflow.com/questions/55399118/how-to-remove-hash-from-routes-in-react-admin-framework
- */
-//
-const ReactAdmin = dynamic(() => import("../components/ReactAdmin"), {
-  ssr: false,
-})
-
-const HomePage = () => <ReactAdmin/>
-
-export default HomePage
-```
-

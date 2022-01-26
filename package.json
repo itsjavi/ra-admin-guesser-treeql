@@ -1,0 +1,45 @@
+{
+  "name": "ra-data-treeql",
+  "version": "0.3.0",
+  "description": "Simple REST data provider for react-admin",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "sideEffects": false,
+  "files": [
+    "*.md",
+    "LICENSE",
+    "lib",
+    "esm",
+    "src"
+  ],
+  "authors": [
+    "Javi Aguilar"
+  ],
+  "repository": "marmelab/react-admin",
+  "homepage": "https://github.com/itsjavi/ra-data-treeql#readme",
+  "bugs": "https://github.com/itsjavi/ra-data-treeql/issues",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run build-cjs && npm run build-esm",
+    "build-cjs": "rm -rf ./lib && tsc",
+    "build-esm": "rm -rf ./esm && tsc --outDir esm --module es2015",
+    "watch": "tsc --outDir esm --module es2015 --watch"
+  },
+  "dependencies": {
+    "history": "^4",
+    "query-string": "^7",
+    "ra-core": "^3",
+    "react": "^17",
+    "react-admin": "^3",
+    "react-dom": "^17",
+    "underscore.string": "^3"
+  },
+  "devDependencies": {
+    "@types/history": "^4.7",
+    "@types/query-string": "^6.3",
+    "@types/underscore.string": "^0.0.38",
+    "@types/node": "^17",
+    "@types/react": "^17",
+    "typescript": "^4.5"
+  }
+}
