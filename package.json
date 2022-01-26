@@ -1,11 +1,17 @@
 {
   "name": "ra-data-treeql",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Simple REST data provider for react-admin",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "sideEffects": false,
-  "keywords": ["react-admin", "ra-data", "php-crud-api", "treeql", "sql-admin"],
+  "keywords": [
+    "react-admin",
+    "ra-data",
+    "php-crud-api",
+    "treeql",
+    "sql-admin"
+  ],
   "files": [
     "*.md",
     "LICENSE",
