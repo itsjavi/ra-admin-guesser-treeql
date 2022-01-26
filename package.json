@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "module": "esm/index.js",
   "sideEffects": false,
+  "keywords": ["react-admin", "ra-data", "php-crud-api", "treeql", "sql-admin"],
   "files": [
     "*.md",
     "LICENSE",
