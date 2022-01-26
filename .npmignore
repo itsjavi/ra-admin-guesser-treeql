@@ -1,0 +1,7 @@
+.*
+*~
+*.log
+*.lock
+.editorconfig
+.gitignore
+tsconfig.json

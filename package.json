@@ -15,7 +15,7 @@
   "authors": [
     "Javi Aguilar"
   ],
-  "repository": "marmelab/react-admin",
+  "repository": "itsjavi/ra-data-treeql",
   "homepage": "https://github.com/itsjavi/ra-data-treeql#readme",
   "bugs": "https://github.com/itsjavi/ra-data-treeql/issues",
   "license": "MIT",
