@@ -1,10 +1,16 @@
 # ra-data-treeql
 
-🪄 [React Admin](https://marmelab.com/react-admin) data provider and UI scaffolder
-for [TreeQL](https://treeql.org/)-powered REST APIs like [PHP-CRUD-API](https://github.com/mevdschee/php-crud-api).
+[PHP-CRUD-API](https://github.com/mevdschee/php-crud-api) Data Provider and automatic UI generator 🪄
+for [react-admin](https://github.com/marmelab/react-admin), the frontend framework for building admin applications on
+top of REST/GraphQL services.
 
-It is not only a data provider for your API, but it can also (optionally) generate the UI for all your tables and
-columns automatically, similarly to [`api-platform` admin](https://github.com/api-platform/admin) .
+[![react-admin-demo](https://marmelab.com/react-admin/img/react-admin-demo-still.png)](https://vimeo.com/268958716)
+
+This package is not just compatible with PHP-CRUD-API, but also with any RESTFul API compatible with
+the [TreeQL](https://treeql.org) format.
+
+Optionally, it can also generate the UI for all your tables and columns automatically, similarly
+to [`api-platform` admin](https://github.com/api-platform/admin) .
 
 ## Motivation
 
@@ -37,6 +43,23 @@ npm i ra-data-treeql
   don't need the scaffolding part, you don't need to have a `/columns` endpoint in the implementation of TreeQL of your
   choice.
 - A React or React + NextJS app (with TypeScript) to embed the admin component in
+
+## REST Dialect
+
+This Data Provider supports REST APIs that follow the [TreeQL](https://treeql.org/) dialect, used for instance
+in [php-crud-api](https://github.com/mevdschee/php-crud-api) as a reference implementation.
+
+| Method             | API calls                                                                     |
+| ------------------ |-------------------------------------------------------------------------------|
+| `getList`          | `GET http://my.api.url/posts?sort=title,asc&page=0,25&filter=title,eq,bar`    |
+| `getOne`           | `GET http://my.api.url/posts/123`                                             |
+| `getMany`          | `GET http://my.api.url/posts?filter=id,in,123,456,789`                        |
+| `getManyReference` | `GET http://my.api.url/posts?filter=author_id,eq,345`                         |
+| `create`           | `POST http://my.api.url/posts`                                                |
+| `update`           | `PUT http://my.api.url/posts/123`                                             |
+| `updateMany`       | Single call to `PUT http://my.api.url/posts/1,2,3` with an array payload      |
+| `delete`           | `DELETE http://my.api.url/posts/123`                                          |
+| `deleteMany`       | Single call to `DELETE http://my.api.url/posts/1,2,3`                         |
 
 ## Usage
 
@@ -230,3 +253,20 @@ class ApiController extends AbstractController
 }
 
 ```
+
+## TODO
+
+- [ ] Tests like
+  in [ra-data-simple-rest](https://github.com/marmelab/react-admin/blob/master/packages/ra-data-simple-rest/src/index.spec.ts)
+- [ ] Basic foreign keys support, using Reference fields and inputs.
+  - This can be easily guessed, because we know the whole DB schema structure.
+- [ ] Suggest code for custom Record components (like api-platform admin does)
+- [ ] Better numeric support (floats should not be allowed for int columns)
+- [ ] Guess basic validation rules (e.g. emails, urls, colors, slugs, etc)
+- [ ] Being able to hook in to replace some column fields/inputs, or to show/hide specific columns in the lists
+- [ ] Being able to override generation for specific tables or table columns, as well as the sidebar icons.
+- [x] Being able to use it with any TreeQL impl
+
+## License
+
+This project is licensed under the MIT license.
