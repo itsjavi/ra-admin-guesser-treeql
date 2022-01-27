@@ -18,6 +18,7 @@ import {FlashAuto} from "@material-ui/icons"
 import {ScaffoldSettings, strCapitalizeWords} from "./common"
 import {createFieldComponent, createInputComponent, createListFilters} from "./propertyGuesser"
 import {EditGuesser} from "./EditGuesser"
+import {CreateGuesser} from "./CreateGuesser"
 
 
 interface ResourceGuesserProps {
@@ -77,19 +78,12 @@ export const guessResource = ({scaffold, key}: ResourceGuesserProps): JSX.Elemen
     }
     edit={
       (props: any) => (
-        <EditGuesser scaffold={scaffold} {...props}/>
+        <EditGuesser scaffold={scaffold} showCode={true} editProps={props}/>
       )
     }
     create={
       (props: any) => (
-        <Create title={"Create " + resourceTitle} {...props}>
-          <SimpleForm>
-            {table.columns
-              .filter((column) => column.pk !== true)
-              .map((column, key) => createInputComponent(scaffold, column, key))
-            }
-          </SimpleForm>
-        </Create>
+        <CreateGuesser scaffold={scaffold} showCode={true} createProps={props}/>
       )
     }
   />

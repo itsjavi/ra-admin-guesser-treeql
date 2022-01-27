@@ -17,7 +17,7 @@ import * as React from "react"
 
 export const createReferenceField = (scaffold: ScaffoldSettings, column: DbColumn, key?: number): JSX.Element => {
   const labelColumns = findFkLabelColumns(scaffold, column, scaffold.labelFields)
-  return <ReferenceField source={column.name} reference={column.fk} key={key}>
+  return <ReferenceField source={column.name} reference={column.fk} key={key} emptyText={"--"}>
     {createFieldComponent(scaffold, labelColumns[0])}
   </ReferenceField>
 }
@@ -34,7 +34,6 @@ export const createReferenceInput = (scaffold: ScaffoldSettings, column: DbColum
     perPage={50}
     resettable={column.nullable ? true : undefined}
     filterToQuery={searchText => ({[filterQuery]: searchText})}
-    fullWidth
   >
     <AutocompleteInput
       required={!column.nullable}
@@ -60,15 +59,15 @@ export const createFieldComponent = (scaffold: ScaffoldSettings, column: DbColum
     case "int":
     case "float":
       const numberFormatOptions: Intl.NumberFormatOptions = {useGrouping: false} // TODO: expose as guesser prop
-      return <NumberField {...fieldProps} options={numberFormatOptions}/>
+      return <NumberField emptyText={"--"} {...fieldProps} options={numberFormatOptions}/>
     case "bool":
-      return <BooleanField {...fieldProps} fullWidth/>
+      return <BooleanField emptyText={"--"} {...fieldProps}/>
     case "datetime":
-      return <DateField {...fieldProps} fullWidth/>
+      return <DateField emptyText={"--"} {...fieldProps}/>
     case "text":
-      return <TextField {...fieldProps} fullWidth/>
+      return <TextField emptyText={"--"} {...fieldProps}/>
     default:
-      return <TextField {...fieldProps} fullWidth/>
+      return <TextField emptyText={"--"} {...fieldProps}/>
   }
 }
 
@@ -88,7 +87,7 @@ export const findFkLabelColumns = (scaffold: ScaffoldSettings, column: DbColumn,
   }
 
   // find label column
-  let labelColumns = fkTable.columns.filter(c => fieldsSet.includes(c.name))
+  let labelColumns = fieldsSet.map(f => fkTable.columns.find(c => c.name === f)).filter(c => !!c)
 
   if (labelColumns.length === 0) {
     return [pkColumn]
@@ -110,20 +109,20 @@ export const createInputComponent = (scaffold: ScaffoldSettings, column: DbColum
     required: !column.nullable,
     key: key,
     disabled: column.pk,
-    resettable: column.nullable ? null : undefined
+    resettable: column.nullable ? true : undefined
   }
   switch (column.type) {
     case "int":
     case "float":
-      return <NumberInput {...fieldProps} fullWidth/>
+      return <NumberInput {...fieldProps}/>
     case "bool":
-      return <BooleanInput {...fieldProps} fullWidth/>
+      return <BooleanInput {...fieldProps}/>
     case "datetime":
-      return <DateTimeInput {...fieldProps} fullWidth/>
+      return <DateTimeInput {...fieldProps}/>
     case "text":
-      return <TextInput multiline {...fieldProps} fullWidth/>
+      return <TextInput multiline {...fieldProps}/>
     default:
-      return <TextInput {...fieldProps} fullWidth/>
+      return <TextInput {...fieldProps} />
   }
 }
 
