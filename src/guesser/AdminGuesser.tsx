@@ -4,7 +4,7 @@ import {AdminProps, fetchUtils} from "ra-core"
 import {createHashHistory as createHistory} from "history"
 import {useSchema} from "../schema/useSchema"
 import {treeqlDataProvider} from "../dataProvider"
-import {guessResource} from "./RecordGuesser"
+import {guessResource} from "./ResourceGuesser"
 import {safeChildren, ScaffoldSettings} from "./common"
 
 export type ResourceGuesserProps = {
@@ -12,6 +12,7 @@ export type ResourceGuesserProps = {
   httpClient: (typeof fetchUtils.fetchJson)
   adminProps: AdminProps | any
   maxGridColumns: number
+  showCode: boolean
   children?: React.ReactNode
   labelFields?: string[]
   searchableFields?: string[]
@@ -24,10 +25,11 @@ export const AdminGuesser = (props: ResourceGuesserProps) => {
     adminProps,
     baseApiUrl,
     maxGridColumns,
+    children,
     excludedTables = ["sqlite_sequence", "doctrine_migration_versions", "migrations"],
     labelFields = ["label", "name", "title", "slug"],
     searchableFields = ["label", "name", "title", "slug", "description", "summary", "text"],
-    children
+    showCode = true,
   } = props
 
   if (loading) return <Loading
@@ -43,6 +45,7 @@ export const AdminGuesser = (props: ResourceGuesserProps) => {
     excludedTables,
     labelFields,
     searchableFields,
+    showCode,
   }
 
   return <Admin

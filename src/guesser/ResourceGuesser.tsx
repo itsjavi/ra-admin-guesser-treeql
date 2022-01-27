@@ -1,25 +1,12 @@
-import {
-  Create,
-  CreateButton,
-  Datagrid,
-  EditButton,
-  ExportButton,
-  FilterButton,
-  List,
-  Resource,
-  Show,
-  ShowButton,
-  SimpleForm,
-  SimpleShowLayout,
-  TopToolbar
-} from "react-admin"
+import {Create, CreateButton, Edit, ExportButton, FilterButton, List, Resource, Show, TopToolbar} from "react-admin"
 import * as React from "react"
 import {FlashAuto} from "@material-ui/icons"
 import {ScaffoldSettings, strCapitalizeWords} from "./common"
-import {createFieldComponent, createInputComponent, createListFilters} from "./propertyGuesser"
-import {EditGuesser} from "./EditGuesser"
-import {CreateGuesser} from "./CreateGuesser"
-
+import {createListFilters} from "./propertyGuesser"
+import {CreateFormGuesser} from "./CreateFormGuesser"
+import {EditFormGuesser} from "./EditFormGuesser"
+import {ShowGuesser} from "./ShowGuesser"
+import {DatagridGuesser} from "./DatagridGuesser"
 
 interface ResourceGuesserProps {
   key?: number | string,
@@ -56,34 +43,29 @@ export const guessResource = ({scaffold, key}: ResourceGuesserProps): JSX.Elemen
           filters={createListFilters(scaffold, table)}
           actions={<ListActions/>}
         >
-          <Datagrid resource={table.name} optimized>
-            {table.columns
-              .filter(column => column.type !== "text") // exclude big text from lists
-              .slice(0, scaffold.maxGridColumns)
-              .map((column, key) => createFieldComponent(scaffold, column, key))}
-            <ShowButton basePath={'/' + table.name}/>
-            <EditButton basePath={'/' + table.name}/>
-          </Datagrid>
+          <DatagridGuesser scaffold={scaffold}/>
         </List>
       )
     }
     show={
       (props: any) => (
         <Show title={resourceTitle} {...props}>
-          <SimpleShowLayout>
-            {table.columns.map((column, key) => createFieldComponent(scaffold, column, key))}
-          </SimpleShowLayout>
+          <ShowGuesser scaffold={scaffold}/>
         </Show>
       )
     }
     edit={
       (props: any) => (
-        <EditGuesser scaffold={scaffold} showCode={true} editProps={props}/>
+        <Edit title={resourceTitle} {...props}>
+          <EditFormGuesser scaffold={scaffold}/>
+        </Edit>
       )
     }
     create={
       (props: any) => (
-        <CreateGuesser scaffold={scaffold} showCode={true} createProps={props}/>
+        <Create title={resourceTitle} {...props}>
+          <CreateFormGuesser scaffold={scaffold}/>
+        </Create>
       )
     }
   />
