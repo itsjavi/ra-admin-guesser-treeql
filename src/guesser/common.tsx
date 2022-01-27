@@ -13,7 +13,6 @@ export type ScaffoldSettings = {
   searchableFields?: string[]
   labelFields?: string[]
   maxGridColumns: number
-  excludedTables?: string[]
   showCode: boolean
 }
 

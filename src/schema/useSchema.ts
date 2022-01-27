@@ -51,11 +51,13 @@ const normalizeColumnType = (rawColumnType: string): DbColumnType => {
  * @param baseApiUrl
  * @param httpClient
  * @param excluded List of excluded table names
+ * @param included Allowed table names
  */
 export const useSchema = (
   baseApiUrl: string,
   httpClient = fetchUtils.fetchJson,
-  excluded: string[] = []
+  excluded: string[] = [],
+  included: string[] = []
 ) => {
   const [_tables, setTables] = useState<DbTable[]>([])
   const [loading, setLoading] = useState(true)
@@ -69,6 +71,9 @@ export const useSchema = (
           return tables
             .filter(
               table => (table.type === "table" && !excluded.includes(table.name))
+            )
+            .filter(
+              table => included.length === 0 || included.includes(table.name)
             )
             .map(table => {
               table.columns.forEach(column => {

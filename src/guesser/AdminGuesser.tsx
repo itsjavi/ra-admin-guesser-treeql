@@ -17,16 +17,18 @@ export type ResourceGuesserProps = {
   labelFields?: string[]
   searchableFields?: string[]
   excludedTables?: string[]
+  includedTables?: string[]
 }
 
 export const AdminGuesser = (props: ResourceGuesserProps) => {
-  const {tables, loading, error} = useSchema(props.baseApiUrl, props.httpClient, props.excludedTables)
+  const {tables, loading, error} = useSchema(
+    props.baseApiUrl, props.httpClient, props.excludedTables, props.includedTables
+  )
   const {
     adminProps,
     baseApiUrl,
     maxGridColumns,
     children,
-    excludedTables = ["sqlite_sequence", "doctrine_migration_versions", "migrations"],
     labelFields = ["label", "name", "title", "slug"],
     searchableFields = ["label", "name", "title", "slug", "description", "summary", "text"],
     showCode = true,
@@ -42,7 +44,6 @@ export const AdminGuesser = (props: ResourceGuesserProps) => {
   const scaffold: ScaffoldSettings = {
     tables,
     maxGridColumns,
-    excludedTables,
     labelFields,
     searchableFields,
     showCode,

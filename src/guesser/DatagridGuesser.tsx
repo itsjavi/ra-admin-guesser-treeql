@@ -65,5 +65,5 @@ export const ${componentPrefix}List = (props) => (
     )
   }
 
-  return codeContainer
+  return grid
 }
