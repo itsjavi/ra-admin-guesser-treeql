@@ -1,26 +1,8 @@
 import {useEffect, useState} from "react"
 import {fetchUtils} from "ra-core"
+import {DbColumnType, DbTable} from "./types"
 
 const columnsBaseApiPath = '/columns'
-
-// data structures for the "GET /columns" endpoint from php-crud-api
-export type DbColumnType = "int" | "float" | "bool" | "varchar" | "text" | "blob" | "datetime"
-export type DbColumn = {
-  name: string
-  type: DbColumnType
-  length?: number
-  precision?: number
-  scale?: number
-  nullable?: boolean
-  pk?: boolean
-  // Foreign Key table name
-  fk?: string
-}
-export type DbTable = {
-  name: string
-  type: "table" | "view" | "system_view" | "system_table" | "trigger" | "index" | "sequence" | "unknown"
-  columns: DbColumn[]
-}
 
 const normalizeColumnType = (rawColumnType: string): DbColumnType => {
   switch (rawColumnType) {
@@ -70,7 +52,7 @@ const normalizeColumnType = (rawColumnType: string): DbColumnType => {
  * @param httpClient
  * @param excluded List of excluded table names
  */
-export const useColumns = (
+export const useSchema = (
   baseApiUrl: string,
   httpClient = fetchUtils.fetchJson,
   excluded: string[] = []
