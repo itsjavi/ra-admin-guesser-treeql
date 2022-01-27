@@ -107,15 +107,21 @@ const ReactAdmin = () => {
       showCode={true}
       // Max number of columns to show in the generated Datagrid:
       maxGridColumns={8}
-      // Tables that won't be scaffolded:
+      // (Optional) Tables that won't be scaffolded:
       excludedTables={[
         "sqlite_sequence",
         "doctrine_migration_versions",
         "migrations"
       ]}
-      // Fields to use as labels of the relationship inputs and fields (first found column will be used):
+      // (Optional) Allowed list of tables to be scaffolded:
+      includedTables={[
+        "sqlite_sequence",
+        "doctrine_migration_versions",
+        "migrations"
+      ]}
+      // (Optional) Fields to use as labels of the relationship inputs and fields (first found column will be used):
       labelFields={["name", "slug"]}
-      // Fields to use as searchable fields in the autocomplete relationship inputs (first found column will be used):
+      // (Optional) Fields to use as searchable fields in the autocomplete relationship inputs (first found column will be used):
       searchableFields={["name", "slug"]}
       // Properties passed to the Admin component
       adminProps={{title: 'React Admin'}}/>

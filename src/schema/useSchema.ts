@@ -57,11 +57,15 @@ export const useSchema = (
   baseApiUrl: string,
   httpClient = fetchUtils.fetchJson,
   excluded: string[] = [],
-  included: string[] = []
+  included: string[] | undefined = []
 ) => {
   const [_tables, setTables] = useState<DbTable[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState()
+
+  if (!Array.isArray(included)) {
+    included = []
+  }
 
   useEffect(() => {
     (async () => {
