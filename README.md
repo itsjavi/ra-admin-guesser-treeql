@@ -64,7 +64,8 @@ in [php-crud-api](https://github.com/mevdschee/php-crud-api) as a reference impl
 ## Usage
 
 You can use this package just as a data provider for your React Admin app (`treeqlDataProvider`), or you can also use it
-to automatically generate the UI for your tables and columns, using the `AdminGuesser` component.
+to automatically generate the UI for your tables and columns, using the `AdminGuesser` component. It can also optionally
+show you code suggestions.
 
 ### Using the data provider without UI scaffolding
 
@@ -95,23 +96,29 @@ import {MyDashboardPanel} from "./dashboard"
 import {AdminGuesser} from "ra-data-treeql"
 import {fetchUtils} from "ra-core"
 
-
 const ReactAdmin = () => {
   const apiUrl = process.env.API_URL || 'http://localhost:1234/api'
 
   return (
     <AdminGuesser
-      apiUrl={apiUrl}
+      baseApiUrl={apiUrl}
       httpClient={fetchUtils.fetchJson}
+      // If true, code suggestions for the scaffoled columns will be shown in the UI in a different tab:
+      showCode={true}
+      // Max number of columns to show in the generated Datagrid:
+      maxGridColumns={8}
+      // Tables that won't be scaffolded:
       excludedTables={[
         "sqlite_sequence",
         "doctrine_migration_versions",
         "migrations"
       ]}
-      adminProps={{
-        title: 'My React Admin',
-        dashboard: MyDashboardPanel,
-      }}/>
+      // Fields to use as labels of the relationship inputs and fields (first found column will be used):
+      labelFields={["name", "slug"]}
+      // Fields to use as searchable fields in the autocomplete relationship inputs (first found column will be used):
+      searchableFields={["name", "slug"]}
+      // Properties passed to the Admin component
+      adminProps={{title: 'React Admin'}}/>
   )
 }
 
@@ -134,17 +141,12 @@ const ReactAdmin = () => {
 
   return (
     <AdminGuesser
-      apiUrl={apiUrl}
+      baseApiUrl={apiUrl}
       httpClient={fetchUtils.fetchJson}
-      excludedTables={[
-        "sqlite_sequence",
-        "doctrine_migration_versions",
-        "migrations"
-      ]}
-      adminProps={{
-        title: 'My React Admin',
-        dashboard: MyDashboardPanel,
-      }}/>
+      showCode={true}
+      maxGridColumns={8}
+      adminProps={{title: 'React Admin'}}
+    />
   )
 }
 
@@ -254,19 +256,18 @@ class ApiController extends AbstractController
 
 ```
 
-## TODO
+## TODOs
 
 - [ ] Tests like
   in [ra-data-simple-rest](https://github.com/marmelab/react-admin/blob/master/packages/ra-data-simple-rest/src/index.spec.ts)
-- [ ] Basic foreign keys support, using Reference fields and inputs.
+- [x] Basic foreign keys support, using Reference fields and inputs.
   - This can be easily guessed, because we know the whole DB schema structure.
-- [ ] Suggest code for custom Record components (like api-platform admin does)
+- [x] Suggest code for custom Record components (like api-platform admin does)
 - [ ] Better numeric support (floats should not be allowed for int columns)
 - [ ] Guess basic validation rules (e.g. emails, urls, colors, slugs, etc)
 - [ ] Being able to hook in to replace some column fields/inputs, or to show/hide specific columns in the lists
 - [ ] Being able to override generation for specific tables or table columns, as well as the sidebar icons.
 - [x] Being able to use it with any TreeQL impl
-
 
 ## License
 
