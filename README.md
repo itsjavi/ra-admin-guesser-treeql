@@ -267,6 +267,7 @@ class ApiController extends AbstractController
 - [ ] Being able to override generation for specific tables or table columns, as well as the sidebar icons.
 - [x] Being able to use it with any TreeQL impl
 
+
 ## License
 
 This project is licensed under the MIT license.

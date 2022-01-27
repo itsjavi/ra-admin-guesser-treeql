@@ -91,6 +91,10 @@ export const useColumns = (
             .map(table => {
               table.columns.forEach(column => {
                 column.type = normalizeColumnType(column.type)
+                // @ts-ignore
+                column.nullable = column.nullable === true || column.nullable === "true"
+                // @ts-ignore
+                column.pk = column.pk === true || column.pk === "true"
               })
               return table
             })

@@ -35,7 +35,7 @@ export const AdminGuesser = (
     excludedTables = ["sqlite_sequence", "doctrine_migration_versions", "migrations"],
     children
   }: ResourceGuesserProps
-): JSX.Element => {
+) => {
   const {tables, loading, error} = useColumns(baseApiUrl, httpClient, excludedTables)
 
   if (loading) return <Loading
@@ -48,10 +48,10 @@ export const AdminGuesser = (
   return <Admin
     {...adminProps}
     history={createHistory({basename: '/'})}
-    dataProvider={treeqlDataProvider(baseApiUrl, fetchUtils.fetchJson)}
+    dataProvider={treeqlDataProvider(baseApiUrl, fetchUtils.fetchJson, tables.map(table => table.name))}
   >
     {tables.map(
-      (table, index) => guessResource({table, maxGridColumns, key: index})
+      (table, index) => guessResource({tables, table, maxGridColumns, key: index})
     )}
     {getSafeAdminChildren(children)}
   </Admin>
