@@ -38,8 +38,6 @@ export const AdminGuesser = (props: ResourceGuesserProps) => {
     loadingPrimary={`Generating ${adminProps.title || 'React Admin'} UI...`}
     loadingSecondary={"Scaffolding tables and columns..."}
   />
-  if (error) return <Error error={error}/>
-  if (!tables || tables.length === 0) return <div>No tables found.</div>
 
   const scaffold: ScaffoldSettings = {
     tables,
@@ -49,10 +47,19 @@ export const AdminGuesser = (props: ResourceGuesserProps) => {
     showCode,
   }
 
+  const dataProvider = treeqlDataProvider(baseApiUrl, props.httpClient, tables.map(table => table.name))
+  const historyManager = createHistory({basename: '/'})
+
+  if (error) return <Error error={error}/>
+  if (!tables || tables.length === 0) return <Admin
+    dashboard={() => <h2 style={{color: 'red'}}>Error: No tables found</h2>}
+    dataProvider={dataProvider}><span/>
+  </Admin>
+
   return <Admin
     {...adminProps}
-    history={createHistory({basename: '/'})}
-    dataProvider={treeqlDataProvider(baseApiUrl, props.httpClient, tables.map(table => table.name))}
+    history={historyManager}
+    dataProvider={dataProvider}
   >
     {tables.map(
       (table, index) => guessResource({

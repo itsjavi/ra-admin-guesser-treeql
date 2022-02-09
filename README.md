@@ -115,9 +115,9 @@ const ReactAdmin = () => {
       ]}
       // (Optional) Allowed list of tables to be scaffolded:
       includedTables={[
-        "sqlite_sequence",
-        "doctrine_migration_versions",
-        "migrations"
+        "users",
+        "invoices",
+        "orders"
       ]}
       // (Optional) Fields to use as labels of the relationship inputs and fields (first found column will be used):
       labelFields={["name", "slug"]}
