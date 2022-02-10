@@ -1,6 +1,6 @@
 {
   "name": "ra-data-treeql",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "PHP-CRUD-API / TreeQL Data Provider and automatic UI generator for react-admin",
   "keywords": [
     "react-admin",
