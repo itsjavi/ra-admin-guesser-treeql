@@ -165,27 +165,6 @@ export const createReferenceInput = (scaffold: ScaffoldSettings, column: DbColum
   </ReferenceInput>
 }
 
-// https://marmelab.com/react-admin/Inputs.html#transforming-input-value-tofrom-record
-const dateFormatter = (v: Date | any) => {
-  // @ts-ignore
-  if (!(v instanceof Date) || isNaN(v)) return
-  const pad = '00'
-  const yy = v.getFullYear().toString()
-  const mm = (v.getMonth() + 1).toString()
-  const dd = v.getDate().toString()
-  return `${yy}-${(pad + mm).slice(-2)}-${(pad + dd).slice(-2)}`
-}
-
-const dateParser = (v: string | any) => {
-  const match = /(\d{4})-(\d{2})-(\d{2})/.exec(v)
-  if (match === null) return
-  // @ts-ignore
-  const d = new Date(match[1], parseInt(match[2], 10) - 1, match[3])
-  // @ts-ignore
-  if (isNaN(d)) return
-  return d
-}
-
 export const createFieldComponent = (scaffold: ScaffoldSettings, column: DbColumn, key?: number): JSX.Element => {
   if (!!column.fk) {
     const elem = createReferenceField(scaffold, column, key)
@@ -207,7 +186,8 @@ export const createFieldComponent = (scaffold: ScaffoldSettings, column: DbColum
     case "bool":
       return <BooleanField emptyText={"--"} {...fieldProps}/>
     case "datetime":
-      return <DateField emptyText={"--"} {...fieldProps}/>
+      //return <DateField emptyText={"--"} {...fieldProps}/> // react-admin uses Date.toLocaleString, which messes up the date
+      return <TextField emptyText={"--"} {...fieldProps}/>
     case "text":
       return <TextField emptyText={"--"} {...fieldProps}/>
     default:
@@ -262,7 +242,8 @@ export const createInputComponent = (scaffold: ScaffoldSettings, column: DbColum
     case "bool":
       return <BooleanInput {...fieldProps}/>
     case "datetime":
-      return <DateTimeInput format={dateFormatter} parse={dateParser} {...fieldProps}/>
+      // return <DateTimeInput {...fieldProps}/> // react-admin uses Date.toLocaleString, which messes up the date
+      return <TextInput {...fieldProps} />
     case "text":
       return <TextInput multiline {...fieldProps}/>
     default:
