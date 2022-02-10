@@ -60,24 +60,21 @@ export const useSchema = (
   included: string[] | undefined = []
 ) => {
   const [_tables, setTables] = useState<DbTable[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState()
-
-  if (!Array.isArray(included)) {
-    included = []
-  }
+  const [_loading, setLoading] = useState(true)
+  const [_error, setError] = useState()
 
   useEffect(() => {
     (async () => {
       await httpClient(baseApiUrl + columnsBaseApiPath)
         .then(({json}) => json as { tables: DbTable[] })
         .then(({tables}) => {
+          const includedTables = !Array.isArray(included) ? [] : included
           return tables
             .filter(
               table => (table.type === "table" && !excluded.includes(table.name))
             )
             .filter(
-              table => included.length === 0 || included.includes(table.name)
+              table => includedTables.length === 0 || includedTables.includes(table.name)
             )
             .map(table => {
               table.columns.forEach(column => {
@@ -103,8 +100,8 @@ export const useSchema = (
   }, [baseApiUrl, httpClient, excluded, setTables, setLoading, setError])
 
   return {
-    loading,
-    error,
+    loading: _loading,
+    error: _error,
     tables: _tables,
   }
 }

@@ -2,10 +2,10 @@ import {Admin, Error, Loading} from "react-admin"
 import * as React from "react"
 import {AdminProps, fetchUtils} from "ra-core"
 import {createHashHistory as createHistory} from "history"
-import {useSchema} from "../schema/useSchema"
 import {treeqlDataProvider} from "../dataProvider"
 import {guessResource} from "./ResourceGuesser"
 import {safeChildren, ScaffoldSettings} from "./common"
+import {useSchema} from "../schema/useSchema"
 
 export type ResourceGuesserProps = {
   baseApiUrl: string
