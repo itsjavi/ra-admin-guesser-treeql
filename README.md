@@ -97,7 +97,7 @@ import {AdminGuesser} from "ra-data-treeql"
 import {fetchUtils} from "ra-core"
 
 const ReactAdmin = () => {
-  const apiUrl = process.env.API_URL || 'http://localhost:1234/api'
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:1234/api'
 
   return (
     <AdminGuesser
@@ -249,7 +249,7 @@ class ApiController extends AbstractController
                 'controllers' => 'records,columns,openapi,status', // default is 'records,geojson,openapi,status',
                 'basePath' => '/api', // Same as the Symfony controller route
                 "openApiBase" => json_encode(self::OPENAPI_BASE, JSON_THROW_ON_ERROR),
-                'cors.allowHeaders' => ['*'], // You can also whiltelist them. Left as * for quick prototyping.
+                'cors.allowHeaders' => ['*'], // You can also white-list them. Left as * for quick prototyping.
             ]
         );
         $api = new Api($config);
@@ -266,14 +266,9 @@ class ApiController extends AbstractController
 
 - [ ] Tests like
   in [ra-data-simple-rest](https://github.com/marmelab/react-admin/blob/master/packages/ra-data-simple-rest/src/index.spec.ts)
-- [x] Basic foreign keys support, using Reference fields and inputs.
-  - This can be easily guessed, because we know the whole DB schema structure.
-- [x] Suggest code for custom Record components (like api-platform admin does)
-- [ ] Better numeric support (floats should not be allowed for int columns)
-- [ ] Guess basic validation rules (e.g. emails, urls, colors, slugs, etc)
-- [ ] Being able to hook in to replace some column fields/inputs, or to show/hide specific columns in the lists
-- [ ] Being able to override generation for specific tables or table columns, as well as the sidebar icons.
-- [x] Being able to use it with any TreeQL impl
+- [ ] Basic validation rules (e.g. floats should not be allowed for int columns)
+- [ ] Being able to provide own columns json definition // columns resolver fn,
+        for TreeQL implementations that don't have this endpoint
 
 ## License
 

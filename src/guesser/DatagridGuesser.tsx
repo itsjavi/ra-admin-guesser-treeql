@@ -1,8 +1,7 @@
-import {BaseGuesserProps, CodeContainer, strCapitalizeWords, useReactCode} from "./common"
+import {BaseGuesserProps, CodeContainer, createFieldComponent, strCapitalizeWords, useReactCode} from "./common"
 import str from "underscore.string"
 import React from "react"
-import {createFieldComponent} from "./propertyGuesser"
-import {Datagrid, EditButton, ShowButton, Tab, TabbedShowLayout} from "react-admin"
+import {Datagrid, EditButton, ShowButton} from "react-admin"
 
 export const DatagridGuesser = (props: BaseGuesserProps) => {
   const {scaffold, ...gridProps} = props
@@ -50,14 +49,13 @@ export const ${componentPrefix}List = (props) => (
   const codeContainer = <CodeContainer>{guessedInputsCode}</CodeContainer>
 
   if (scaffold.showCode) {
-    console.log(codeContainer)
     // TODO: find a better layout for this
     return (
       <>
         <div>
           {grid}
         </div>
-        <br />
+        <br/>
         <div>
           {codeContainer}
         </div>

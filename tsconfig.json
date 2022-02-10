@@ -22,6 +22,6 @@
     "**/*.spec.js"
   ],
   "include": [
-    "src/index.tsx"
+    "src/index.ts"
   ]
 }

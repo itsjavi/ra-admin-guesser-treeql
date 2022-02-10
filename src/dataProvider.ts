@@ -56,10 +56,6 @@ const fetchPaginatedList = (
   return httpClient(url, options).then(({headers, json}) => {
     const records = Array.isArray(json.records) ? json.records : []
     const total = parseInt(json.results)
-    console.log('fetchPaginatedList', query, {
-      data: records,
-      total: total,
-    })
     return {
       data: records,
       total: total,
@@ -124,7 +120,6 @@ export const treeqlDataProvider = (
       return httpClient(url)
         .then(({json}) => ({data: json.records, total: json.results || json.records.length}))
         .then(({data, total}) => {
-          console.log('getMany', resource, params, data, total)
           return {
             data, total
           }
