@@ -1,4 +1,4 @@
-# ra-data-treeql
+# ra-admin-guesser-treeql
 
 [PHP-CRUD-API](https://github.com/mevdschee/php-crud-api) Data Provider and automatic UI generator 🪄
 for [react-admin](https://github.com/marmelab/react-admin), the frontend framework for building admin applications on
@@ -33,7 +33,7 @@ Possible use cases:
 ## Installation
 
 ```
-npm i ra-data-treeql
+npm i itsjavi/ra-admin-guesser-treeql
 ```
 
 ## Requirements
@@ -74,7 +74,7 @@ show you code suggestions.
 import * as React from "react";
 import {Admin, Resource} from 'react-admin';
 import {fetchUtils} from "ra-core"
-import treeqlDataProvider from 'ra-data-treeql';
+import treeqlDataProvider from 'ra-admin-guesser-treeql';
 
 import {PostList} from './posts';
 
